@@ -2,16 +2,16 @@
 #include <HTTPClient.h>
 #include <TinyGPS++.h>
 
-const char* ssid = "Sailormoon";         // WiFi SSID
-const char* password = "TrackEye01";     // WiFi Password
+const char* ssid = "Sailormoon";         // WiFi SSID. CHANGE IT TO YR OWN WIFI/ HOTSPOT
+const char* password = "TrackEye01";     // WiFi Password. 
 
-const char* serverName = "http://172.20.10.4/sensor-tracker/save_data.php";
-const char* controlUrl = "http://172.20.10.4/sensor-tracker/control.php";
+const char* serverName = "http://172.20.10.4/sensor-tracker/save_data.php"; //CHANGE IP ADDR BASED ON YR COMPUTER/ PC
+const char* controlUrl = "http://172.20.10.4/sensor-tracker/control.php"; // CHANGE IP ADDR BASED ON YR COMPUTER/PC
 
 const int hallPin = 34;      // Analog input sensor
 const int ppsPin = 26;       // PPS signal
 const int ledPin = 2;        // Indicator LED
-const float setpoint = 1.8;  // Voltage threshold
+const float setpoint = 1.8;  // Voltage threshold (SETPOINT)
 
 HardwareSerial GPS(2);
 TinyGPSPlus gps;
