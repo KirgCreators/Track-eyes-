@@ -71,8 +71,8 @@ const voltageChart=new Chart(ctx,{
 
 function startSystem(){
     running=true;
-    document.getElementById('webcam').src="http://172.20.10.4:5000/video_feed";
-    fetchInterval=setInterval(fetchData,100); //10Hz
+    document.getElementById('webcam').src="http://172.20.10.4:5000/video_feed";  //CHANGE IP ADDRESS BASED ON YR COM
+    fetchInterval=setInterval(fetchData,100); //10Hz (10CYCLE DATA PER ONE SEC)
     fetch('control.php?action=start');
 }
 
