@@ -8,7 +8,7 @@ A **Final Year Project (2025)** by a Mechatronics student, integrating **Arduino
 
 ## 📁 Project Structure
 
-* **Arduino Code**: `Project_MEC3_25_5`
+* **Arduino Code**: `Project_MEC3_25_6`
 * **ROS Package**: `robot_control`
 
 ---
@@ -32,7 +32,7 @@ rosrun rosserial_python serial_node.py _port:=/dev/ttyUSB0 _baud:=57600
 ### 3. **Run the Keyboard Control Node**
 
 ```bash
-rosrun robot_control ros_teleop_control.py
+rosrun robot_control ros_key_control.py
 ```
 
 ---
@@ -44,7 +44,7 @@ rosrun robot_control ros_teleop_control.py
 If the Python file does not execute, make sure it has execute permissions:
 
 ```bash
-chmod +x /home/<user>/catkin_ws/src/robot_control/scripts/ros_teleop_control.py
+chmod +x /home/<user>/catkin_ws/src/robot_control/scripts/ros_key_control.py
 ```
 
 Replace `<user>` with your actual username.
@@ -64,7 +64,7 @@ This project includes an **auto-start setup** to launch everything automatically
           args="_port:=/dev/ttyUSB0 _baud:=57600" output="screen" />
 
     <!-- Keyboard motor control -->
-    <node pkg="robot_control" type="keyboard_control.py" name="keyboard_motor_control" output="screen" />
+    <node pkg="robot_control" type="ros_key_control.py" name="keyboard_motor_control" output="screen" />
 </launch>
 ```
 
