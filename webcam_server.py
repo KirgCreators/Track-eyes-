@@ -5,7 +5,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-camera = cv2.VideoCapture(2)  # 0 = webcam default
+camera = cv2.VideoCapture(0)  # 0 = webcam default
 
 def generate_frames():
     while True:
