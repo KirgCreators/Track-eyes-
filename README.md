@@ -1,15 +1,15 @@
+---
 
+# 🛠️ TrackEye-LiDAR
 
-# 🛠️ TrackEye-ROS-Control
-
-A **Final Year Project (2025)** by a Mechatronics student, integrating **Arduino** and **ROS (Robot Operating System)** for robotic control via keyboard input.
+A **Final Year Project (2025)** by a Mechatronics student, integrating **ROS (Robot Operating System)** and **Python** for **rail surface scanning using a LIDAR sensor**.
 
 ---
 
 ## 📁 Project Structure
 
-* **Arduino Code**: `Project_MEC3_25_6`
-* **ROS Package**: `robot_control`
+* **ROS Node**: `trackeye_rplidar2.py`
+* **Launch File (Optional)**: `trackeye_lidar.launch`
 
 ---
 
@@ -21,19 +21,23 @@ A **Final Year Project (2025)** by a Mechatronics student, integrating **Arduino
 roscore
 ```
 
-### 2. **Connect to Arduino via rosserial**
+### 2. **Connect to LIDAR**
+
+Ensure your LIDAR is properly connected and recognized by the system. For example, using RPLIDAR:
 
 ```bash
-rosrun rosserial_python serial_node.py _port:=/dev/ttyUSB0 _baud:=57600
+roslaunch rplidar_ros rplidar.launch
 ```
 
-> ⚠️ Replace `/dev/ttyUSB0` with the correct port if different on your system.
+> ⚠️ Adjust the launch file parameters to match your device port (e.g., `/dev/ttyUSB0`) and frame ID.
 
-### 3. **Run the Keyboard Control Node**
+### 3. **Run the LIDAR Visualization Node**
 
 ```bash
-rosrun robot_control ros_key_control.py
+rosrun trackeye_lidar trackeye_rplidar.py
 ```
+
+> The Python script will display a live **scatter plot of the rail surface**, showing points detected on the left side of the sensor.
 
 ---
 
@@ -44,53 +48,66 @@ rosrun robot_control ros_key_control.py
 If the Python file does not execute, make sure it has execute permissions:
 
 ```bash
-chmod +x /home/<user>/catkin_ws/src/robot_control/scripts/ros_key_control.py
+chmod +x /home/<user>/catkin_ws/src/trackeye_lidar/scripts/trackeye_rplidar.py
 ```
 
 Replace `<user>` with your actual username.
 
 ---
 
+### ❗ Plot Shows Nothing
+
+* Ensure the **angle mask matches your LIDAR orientation** in `trackeye_rplidar.py`.
+  Example for left side of a 360° scan:
+
+  ```python
+  mask = (angles_rad >= 0) & (angles_rad <= np.pi)
+  ```
+
+* Make sure the LIDAR is publishing valid ranges:
+
+```bash
+rostopic echo /scan
+```
+
+---
+
 ## ⚙️ Auto Start Configuration (Optional)
 
-This project includes an **auto-start setup** to launch everything automatically on system startup.
+This project can **auto-start visualization** on system boot.
 
-### 🔧 `auto_start.launch` (Located in the `launch/` folder)
+### 🔧 `auto_start.launch` (Located in `launch/` folder)
 
 ```xml
 <launch>
-    <!-- Connect Arduino -->
-    <node pkg="rosserial_python" type="serial_node.py" name="rosserial_arduino"
-          args="_port:=/dev/ttyUSB0 _baud:=57600" output="screen" />
+    <!-- Start LIDAR driver -->
+    <include file="$(find rplidar_ros)/launch/rplidar.launch" />
 
-    <!-- Keyboard motor control -->
-    <node pkg="robot_control" type="ros_key_control.py" name="keyboard_motor_control" output="screen" />
+    <!-- Start visualization node -->
+    <node pkg="trackeye_lidar" type="trackeye_rplidar.py" name="trackeye_lidar_visual" output="screen" />
 </launch>
 ```
 
-> Make sure the port is correct: `/dev/ttyUSB0` might differ.
+> Make sure device ports are correct.
 
 ---
 
-### 🧠 Autostart Application Entry
+### 🧠 Autostart Script
 
-Create a startup entry using your OS's Startup Applications:
+Create a startup entry using your OS’s Startup Applications:
 
-* **Name**: `Robot Project Autostart`
-
+* **Name**: `TrackEye-LiDAR Autostart`
 * **Command**:
 
-  ```bash
-  gnome-terminal -- bash -c "/home/$USER/start_robot.sh; exec bash"
-  ```
-
-* **Comment**: Start ROS, Arduino (rosserial), and keyboard control on login
+```bash
+gnome-terminal -- bash -c "/home/$USER/start_trackeye_lidar.sh; exec bash"
+```
 
 ---
 
-### 📜 `start_robot.sh`
+### 📜 `start_trackeye_lidar.sh`
 
-Place this script in your home directory (`~/start_robot.sh`) and make it executable:
+Place this script in your home directory (`~/start_trackeye_lidar.sh`) and make it executable:
 
 ```bash
 #!/bin/bash
@@ -99,14 +116,14 @@ Place this script in your home directory (`~/start_robot.sh`) and make it execut
 source /opt/ros/noetic/setup.bash
 source /home/$USER/catkin_ws/devel/setup.bash
 
-# Launch the robot project
-roslaunch robot_control auto_start.launch
+# Launch LIDAR visualization
+roslaunch trackeye_lidar auto_start.launch
 ```
 
 Make it executable:
 
 ```bash
-chmod +x ~/start_robot.sh
+chmod +x ~/start_trackeye_lidar.sh
 ```
 
 ---
@@ -114,9 +131,9 @@ chmod +x ~/start_robot.sh
 ## 📌 Requirements
 
 * ROS Noetic
-* Arduino with compatible firmware
+* LIDAR sensor (e.g., RPLIDAR)
 * Python 3
-* `rosserial_python` package
+* `numpy`, `matplotlib`
+* `rplidar_ros` ROS package
 
 ---
-
