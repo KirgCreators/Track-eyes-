@@ -26,7 +26,7 @@ roscore
 Ensure your LIDAR is properly connected and recognized by the system. For example, using RPLIDAR:
 
 ```bash
-roslaunch rplidar_ros rplidar.launch
+rosrun rplidar_ros rplidarNode
 ```
 
 > ⚠️ Adjust the launch file parameters to match your device port (e.g., `/dev/ttyUSB0`) and frame ID.
@@ -34,7 +34,7 @@ roslaunch rplidar_ros rplidar.launch
 ### 3. **Run the LIDAR Visualization Node**
 
 ```bash
-rosrun trackeye_lidar trackeye_rplidar.py
+rosrun robot_control TrackEyeRPLidar2.py
 ```
 
 > The Python script will display a live **scatter plot of the rail surface**, showing points detected on the left side of the sensor.
@@ -48,7 +48,7 @@ rosrun trackeye_lidar trackeye_rplidar.py
 If the Python file does not execute, make sure it has execute permissions:
 
 ```bash
-chmod +x /home/<user>/catkin_ws/src/trackeye_lidar/scripts/trackeye_rplidar.py
+chmod +x /home/<user>/catkin_ws/src/trackeye_lidar/scripts/TrackEyeRPLidar2.py
 ```
 
 Replace `<user>` with your actual username.
@@ -57,7 +57,7 @@ Replace `<user>` with your actual username.
 
 ### ❗ Plot Shows Nothing
 
-* Ensure the **angle mask matches your LIDAR orientation** in `trackeye_rplidar.py`.
+* Ensure the **angle mask matches your LIDAR orientation** in `TrackEyeRPLidar2.py`.
   Example for left side of a 360° scan:
 
   ```python
@@ -84,7 +84,7 @@ This project can **auto-start visualization** on system boot.
     <include file="$(find rplidar_ros)/launch/rplidar.launch" />
 
     <!-- Start visualization node -->
-    <node pkg="trackeye_lidar" type="trackeye_rplidar.py" name="trackeye_lidar_visual" output="screen" />
+    <node pkg="trackeye_lidar" type="TrackEyeRPLidar2.py" name="trackeye_lidar_visual" output="screen" />
 </launch>
 ```
 
