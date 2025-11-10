@@ -8,7 +8,7 @@ A **Final Year Project (2025)** by a Mechatronics student, integrating **ROS (Ro
 
 ## 📁 Project Structure
 
-* **ROS Node**: `trackeye_rplidar2.py`
+* **ROS Node**: `trackeye_rplidar3.py`
 * **Launch File (Optional)**: `trackeye_lidar.launch`
 
 ---
@@ -34,7 +34,7 @@ rosrun rplidar_ros rplidarNode
 ### 3. **Run the LIDAR Visualization Node**
 
 ```bash
-rosrun robot_control TrackEyeRPLidar2.py
+rosrun robot_control TrackEyeRPLidar3.py
 ```
 
 > The Python script will display a live **scatter plot of the rail surface**, showing points detected on the left side of the sensor.
@@ -48,7 +48,7 @@ rosrun robot_control TrackEyeRPLidar2.py
 If the Python file does not execute, make sure it has execute permissions:
 
 ```bash
-chmod +x /home/<user>/catkin_ws/src/trackeye_lidar/scripts/TrackEyeRPLidar2.py
+chmod +x /home/<user>/catkin_ws/src/trackeye_lidar/scripts/TrackEyeRPLidar3.py
 ```
 
 Replace `<user>` with your actual username.
@@ -57,7 +57,7 @@ Replace `<user>` with your actual username.
 
 ### ❗ Plot Shows Nothing
 
-* Ensure the **angle mask matches your LIDAR orientation** in `TrackEyeRPLidar2.py`.
+* Ensure the **angle mask matches your LIDAR orientation** in `TrackEyeRPLidar3.py`.
   Example for left side of a 360° scan:
 
   ```python
