@@ -1,0 +1,14 @@
+<launch>
+    <!-- Start the ROS master automatically -->
+    <param name="/use_sim_time" value="false"/>
+
+    <!-- Start the RPLIDAR node -->
+    <node pkg="rplidar_ros" type="rplidarNode" name="rplidarNode" output="screen">
+        <param name="serial_port" value="/dev/ttyUSB0" />
+        <param name="serial_baudrate" value="115200" />
+        <param name="frame_id" value="laser_frame" />
+    </node>
+
+    <!-- Start your visualization script -->
+    <node pkg="robot_control" type="TrackEyeRPLidar4.py" name="trackeye_rplidar" output="screen"/>
+</launch>
